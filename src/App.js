@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react';
+import './App.css';
+import icon from './icon-profile-1.jpg';
 
 const API_ENDPOINT = 'https://snu-web-random-chat.herokuapp.com';
 
@@ -55,76 +57,85 @@ export default function App() {
       .then((response) => response.json())
       .then((message) => {
         console.log(message);
-        const new_message= new ChatMessage(message.userName, content, message.createdAt);
-        console.log(new_message)
-        
+        var date = new Date(message.createdAt).toISOString().slice(0,10);
+        const newMessage = new ChatMessage(message.user.name, content, date);
+        console.log(newMessage);
         setMessageList([
           ...messageList,
-          new_message
-        ])
+          newMessage,
+        ]);
 
         console.log(messageList);
-        //window.location.reload();
       })
       .catch((err) => console.error(err));
-  }
+  };
 
   useEffect(() => {
     setInterval(()=>{
       fetch(`${API_ENDPOINT}/chats`)
-      .then((res) => res.json())
-      .then((messages) => {
-        setMessageList(
-          messages.map((message) => new ChatMessage(message.userName, message.message, message.createdAt)),
-        );
-      });
-    },100)
+        .then((res) => res.json())
+        .then((messages) => {
+          
+          setMessageList(messages.map((message) => new ChatMessage(message.userName, message.message, message.createdAt)));
+        });
+    }, 100);
   }, []);
 
 
-  if(localStorage.getItem('name')){ //만약 로그인이 돼 있으면
-    return(
-      <div>
-          <div>
-          Welcome, {localStorage.getItem('name')}
-        </div>
+  if (localStorage.getItem('name')) { // 만약 로그인이 돼 있으면
+    return (
+      <div className="App">
+        <header className="App-header">
+          <div className="Chatroom-title">
+            [벤처 웹프로그래밍 공주님 왕자님방]에 오신 {localStorage.getItem('name')} 님, 환영합니다!
+          </div>
+        </header>
+        <div className="chatbox">
+          <form onSubmit={sendMessage}>
+            <img className="icon" src={icon}/>
+            <input type="text" className="input" placeholder="What do you want to say?" onChange={(e) => setContent(e.target.value)} />
+            <input type="submit" className="button" value="보내기" />
+          </form>
 
-        <form onSubmit={sendMessage}>
-          <input type="text" name="message" placeholder="What do you want to say?" onChange={(e) => setContent(e.target.value)} />
-          <input type="submit" value="Send!" />
+          <div className="chatList">
+            {messageList.map(message => {
+              return (
+                <div className="chat-container">
+                  <div className="username"> { message.userName } : </div> 
+                  <div className="content"> { message.message } </div>
+                  <div className="date">{ new Date(message.createdAt).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ") } </div>
+                </div>
+              )})}
+          </div>
+        </div>
+        
+      </div>
+    )
+    }
+
+  else return (
+    <div className="App">
+      <header className="App-header">
+          <div className="Chatroom-title">
+            벤처 웹프로그래밍 공주님 왕자님들과 채팅하려면 로그인하세요.
+          </div>           
+        </header>
+      <div className="chatbox">
+        <form onSubmit={onLogin}>
+          <input type="text" className="input" placeholder="type your name" onChange={(e) => setName(e.target.value)} />
+          <input type="submit" className="button" value="로그인하기" />
         </form>
 
         <div className="chatList">
-        {messageList.map(message=>{
-          return (
-            <div>
-              <span>{ message.userName } : </span>
-              <span>{ message.message } </span>
-              <span>{ message.createdAt } </span>      
-            </div>      
-          )})} 
+              {messageList.map(message => {
+                return (
+                  <div className="chat-container">
+                    <div className="username"> { message.userName } : </div> 
+                    <div className="content"> { message.message } </div>
+                    <div className="date">{ new Date(message.createdAt).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ") } </div>
+                  </div>
+                )})}
         </div>
-      </div>
-    )
-  }
-
-  else return (
-    <div>
-      로그인하세요
-      <form onSubmit={onLogin}>
-        <input type="text" name="name" placeholder="type your name" onChange={(e) => setName(e.target.value)} />
-        <input type="submit" value="login" />
-      </form>
-
-      <div className="chatList">
-        {messageList.map(message=>{
-          return (
-            <div>
-              <span>{ message.userName } : </span>
-              <span>{ message.message } </span>
-              <span>{ message.createdAt } </span>      
-            </div>      
-          )})} 
       </div>
     </div>
   );

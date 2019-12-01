@@ -1,22 +1,93 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Gugi|Poor+Story&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  background: #c9a4d3 no-repeat 50%;
+  font-size: 40px;
+  background-size: cover;
+  text-align: center;
+  font-family: 'Black Han Sans', sans-serif;
+
 }
 
-.App-link {
-  color: #09d3ac;
+.App {
+  background-color: whitesmoke;
+}
+.chat-container{
+  margin-left: 30px;
+  display: flex;
+  max-width: 600px;
+  padding: 10px;
+  margin-top: 10px;
+  
+  border-radius: 12px;
+  background-color: rgba(100, 148, 237, 0.884);
+
+}
+.content{
+  margin: 0;
+  color: white;
+  display: inline-block;
+  margin-left: 10px;
+  font-family: 'Poor Story', cursive;
+  font-size: 25px;
+}
+.username{
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  font-family: 'Gugi', cursive;
+}
+.chatbox{
+  background-color: pink;
+  margin: 50px;
+}
+form {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+.input {
+  padding: 20px;
+  margin-top: 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 3px solid white;
+  flex-grow: 1;
+}
+.button {
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: hotpink;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-left: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+.date {
+  margin-left:auto; 
+  margin-right:0;
+  padding: 5px;
+  font-family: 'Poor Story', cursive;
+}
+.icon {
+  width: auto; 
+  height: auto;
+  max-width: 60px;
+  max-height: 60px;
+  margin-top :20px;
+  margin-right: 10px;
+  
 }
