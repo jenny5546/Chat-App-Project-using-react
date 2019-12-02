@@ -45,7 +45,9 @@ export default function App() {
   };
   const sendMessage =(e) =>{
     e.preventDefault();
-    
+    if (!localStorage.getItem('__key')) {
+      return alert("로그인하고 이용해주세요")
+    }
     fetch(`${API_ENDPOINT}/chats`, {
       method: 'POST',
       headers: {
@@ -70,13 +72,21 @@ export default function App() {
       .catch((err) => console.error(err));
   };
 
+  const logout =(e)=>{
+    e.preventDefault();
+    localStorage.removeItem('__key');
+    localStorage.removeItem('name');
+  };
+
   useEffect(() => {
     setInterval(()=>{
       fetch(`${API_ENDPOINT}/chats`)
         .then((res) => res.json())
         .then((messages) => {
-          
-          setMessageList(messages.map((message) => new ChatMessage(message.userName, message.message, message.createdAt)));
+          messages.sort((a, b) => b.createdAt - a.createdAt);
+          setMessageList(
+            messages.map((message) => new ChatMessage(message.userName, message.message, message.createdAt))
+          );
         });
     }, 100);
   }, []);
@@ -89,18 +99,23 @@ export default function App() {
           <div className="Chatroom-title">
             [벤처 웹프로그래밍 공주님 왕자님방]에 오신 {localStorage.getItem('name')} 님, 환영합니다!
           </div>
+
         </header>
+        <div className="logout">
+            <input className="logout-button" type="submit" onClick={logout} value="로그아웃" />
+        </div>
         <div className="chatbox">
-          <form onSubmit={sendMessage}>
+          <form className= "chat_form" onSubmit={sendMessage}>
             <img className="icon" src={icon}/>
-            <input type="text" className="input" placeholder="What do you want to say?" onChange={(e) => setContent(e.target.value)} />
+            <input type="text" className="input" placeholder="하고 싶은 말이 있으신가요?" onChange={(e) => setContent(e.target.value)} />
             <input type="submit" className="button" value="보내기" />
           </form>
 
           <div className="chatList">
             {messageList.map(message => {
               return (
-                <div className="chat-container">
+                
+                <div className={`chat-container ${localStorage.getItem('name') === message.userName ? 'mine' : ''}`}>
                   <div className="username"> { message.userName } : </div> 
                   <div className="content"> { message.message } </div>
                   <div className="date">{ new Date(message.createdAt).toISOString().slice(0, 19).replace(/-/g, "/").replace("T", " ") } </div>
@@ -117,13 +132,20 @@ export default function App() {
     <div className="App">
       <header className="App-header">
           <div className="Chatroom-title">
-            벤처 웹프로그래밍 공주님 왕자님들과 채팅하려면 로그인하세요.
+            벤처 웹프로그래밍 공주님 왕자님들과 채팅하려면 방에 입장해 주세요.
           </div>           
         </header>
+
+        <form className= "login_form" onSubmit={onLogin}>
+          <input type="text" className="login_input" placeholder="방에서 사용하실 닉네임을 입력해주세요" onChange={(e) => setName(e.target.value)} />
+          <input type="submit" className="button" value="방 입장" />
+        </form>
+
       <div className="chatbox">
-        <form onSubmit={onLogin}>
-          <input type="text" className="input" placeholder="type your name" onChange={(e) => setName(e.target.value)} />
-          <input type="submit" className="button" value="로그인하기" />
+        <form className= "chat_form" onSubmit={sendMessage}>
+            <img className="icon" src={icon}/>
+            <input type="text" className="input" placeholder="What do you want to say?" onChange={(e) => setContent(e.target.value)} />
+            <input type="submit" className="button" value="보내기" />
         </form>
 
         <div className="chatList">
