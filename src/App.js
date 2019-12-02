@@ -68,6 +68,7 @@ export default function App() {
         ]);
 
         console.log(messageList);
+        document.querySelector('.input').value = ''
       })
       .catch((err) => console.error(err));
   };
@@ -83,7 +84,7 @@ export default function App() {
       fetch(`${API_ENDPOINT}/chats`)
         .then((res) => res.json())
         .then((messages) => {
-          messages.sort((a, b) => b.createdAt - a.createdAt);
+          //messages.sort((a, b) => b.createdAt - a.createdAt);
           setMessageList(
             messages.map((message) => new ChatMessage(message.userName, message.message, message.createdAt))
           );
@@ -105,11 +106,7 @@ export default function App() {
             <input className="logout-button" type="submit" onClick={logout} value="로그아웃" />
         </div>
         <div className="chatbox">
-          <form className= "chat_form" onSubmit={sendMessage}>
-            <img className="icon" src={icon}/>
-            <input type="text" className="input" placeholder="하고 싶은 말이 있으신가요?" onChange={(e) => setContent(e.target.value)} />
-            <input type="submit" className="button" value="보내기" />
-          </form>
+          
 
           <div className="chatList">
             {messageList.map(message => {
@@ -122,6 +119,12 @@ export default function App() {
                 </div>
               )})}
           </div>
+
+          <form className= "chat_form" onSubmit={sendMessage}>
+            <img className="icon" src={icon}/>
+            <input type="text" className="input" placeholder="하고 싶은 말이 있으신가요?" onChange={(e) => setContent(e.target.value)} />
+            <input type="submit" className="button" value="보내기" />
+          </form>
         </div>
         
       </div>
@@ -142,12 +145,7 @@ export default function App() {
         </form>
 
       <div className="chatbox">
-        <form className= "chat_form" onSubmit={sendMessage}>
-            <img className="icon" src={icon}/>
-            <input type="text" className="input" placeholder="What do you want to say?" onChange={(e) => setContent(e.target.value)} />
-            <input type="submit" className="button" value="보내기" />
-        </form>
-
+        
         <div className="chatList">
               {messageList.map(message => {
                 return (
@@ -158,6 +156,13 @@ export default function App() {
                   </div>
                 )})}
         </div>
+
+        <form className= "chat_form" onSubmit={sendMessage}>
+            <img className="icon" src={icon}/>
+            <input type="text" className="input" placeholder="하고 싶은 말이 있으신가요?" onChange={(e) => setContent(e.target.value)} />
+            <input type="submit" className="button" value="보내기" />
+        </form>
+
       </div>
     </div>
   );

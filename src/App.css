@@ -18,7 +18,10 @@
 }
 
 .App {
-  background-color: whitesmoke;
+  background-color: #fff4fb;
+}
+.chatList {
+  padding-top: 10px;
 }
 .chat-container{
   margin-left: 30px;
@@ -28,7 +31,8 @@
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 12px;
-  background-color: rgba(100, 148, 237, 0.884);
+  background-color: #9eb2f0;
+  
 
 }
 .content{
@@ -47,7 +51,7 @@
   font-family: 'Gugi', cursive;
 }
 .chatbox{
-  background-color: pink;
+  background-color: 	#fff4fb;
   margin: 50px;
 }
 .chat_form {
@@ -56,6 +60,7 @@
   justify-content: space-between;
   max-width: 900px;
   margin: 0 auto 40px;
+  padding-bottom: 20px;
 }
 .login_form{
   display: flex;
@@ -83,7 +88,7 @@
 .button {
   padding: 5px 10px;
   font-size: 16px;
-  background-color: hotpink;
+  background-color: #e38da7;
   color: white;
   border: none;
   border-radius: 8px;
@@ -111,7 +116,7 @@
 }
 .logout-button{
   font-size: 20px;
-  background-color: purple;
+  background-color: #e38da7;
   color: white;
   border: none;
   border-radius: 8px;
@@ -123,6 +128,10 @@
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 12px;
-  background-color: rgb(255, 234, 44);
+  background-color: #fbc6c0	;
   margin-left: 550px;
+}
+
+.mine .username, .mine .content {
+  color: wh;
 }
