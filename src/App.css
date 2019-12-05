@@ -14,6 +14,7 @@
   background-size: cover;
   text-align: center;
   font-family: 'Black Han Sans', sans-serif;
+  
 
 }
 
@@ -37,6 +38,7 @@
 }
 .content{
   margin: 0;
+  white-space: pre-line;
   color: white;
   display: inline-block;
   margin-left: 10px;
@@ -69,6 +71,10 @@
   max-width: 900px;
   margin: 0 auto 40px;
 }
+.login{
+  padding: 5px;
+  float: right;
+}
 .login_input {
   padding: 10px;
   margin-top: 20px;
@@ -87,7 +93,7 @@
 }
 .button {
   padding: 5px 10px;
-  font-size: 16px;
+  font-size: 20px;
   background-color: #e38da7;
   color: white;
   border: none;
