@@ -31,9 +31,35 @@ class ChatMessage {
   }
 }
 
+// function getDocHeight() {
+//   const D = document;
+//   return Math.max(
+//     D.body.scrollHeight, D.documentElement.scrollHeight,
+//     D.body.offsetHeight, D.documentElement.offsetHeight,
+//     D.body.clientHeight, D.documentElement.clientHeight,
+//   );
+// }
+// function amountscrolled() {
+//   const winheight= window.innerHeight || (document.documentElement || document.body).clientHeight;
+//   const docheight = getDocHeight();
+//   const scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
+//   const trackLength = docheight - winheight;
+//   const pctScrolled = Math.floor(scrollTop/trackLength*100); // gets percentage scrolled (ie: 80 or NaN if tracklength == 0)
+//   console.log(pctScrolled + '% scrolled')
+//   return pctScrolled;
+// // }
 
+// window.addEventListener('scroll', () => {
+//   amountscrolled();
+// }, false);
+
+// window.onload = () => {
+//   console.log("hi")
+//   window.scrollTo(1000, 1000);
+// };
 
 export default function App() {
+  
   const [messageList, setMessageList] = useState([]);
   const [name, setName] = useState(null);
   const [content, setContent] = useState(null);
@@ -46,6 +72,9 @@ export default function App() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  
+
   const onLogin = (e) => {
     e.preventDefault();
     if (!name) {
@@ -71,6 +100,7 @@ export default function App() {
       })
       .catch((err) => console.error(err));
   };
+  
   const sendMessage =(e) =>{
     e.preventDefault();
     if (!localStorage.getItem('__key')) {
@@ -87,8 +117,7 @@ export default function App() {
       .then((response) => response.json())
       .then((message) => {
         console.log(message);
-        var date = formatDate(message.createdAt);
-        const newMessage = new ChatMessage(message.user.name, content, date);
+        const newMessage = new ChatMessage(message.user.name, content, message.createdAt);
         console.log(newMessage);
         setMessageList([
           ...messageList,
@@ -118,8 +147,25 @@ export default function App() {
           );
         });
     }, 3000);
+    
   }, []);
-
+  
+  // if (amountscrolled()=== 0){
+  //     if (messageList[0]) {
+  //       fetch(`${API_ENDPOINT}/chats?createdAtFrom=${messageList[0].createdAt}`)
+  //         .then((res) => res.json())
+  //         .then((messages) => {
+  //           console.log(messages);
+  //           messages.sort((a, b) => a.createdAt - b.createdAt);
+  //           setMessageList([
+  //             ...messageList,
+  //             messages.map((message) => new ChatMessage(message.userName, message.message, message.createdAt)),
+  //           ]);
+  //         });
+  //     }
+  // //   
+  // }
+  
 
   if (localStorage.getItem('name')) { // 만약 로그인이 돼 있으면
     return (
@@ -134,7 +180,7 @@ export default function App() {
 
         </header>
         <div className="logout">
-          <Button type="submit" onClick={logout} className="logout-button" raised accent ripple>로그아웃</Button>
+          <input type="submit" onClick={logout} className="logout-button" value="로그아웃" />
         </div>
         <div className="chatbox">
           <div className="chatList">
@@ -158,16 +204,17 @@ export default function App() {
 
           <form className="chat_form" onSubmit={sendMessage}>
             <img className="icon" src={icon}/>
-            <textarea className="input" placeholder="하고 싶은 말이 있으신가요?" onKeyDown={(e) => { if (e.keyCode === 13){ if (e.shiftKey === true) { e.target.value += '\n'; } else sendMessage(e);} }} onChange={(e) => setContent(e.target.value)} />
+            <textarea className="input" placeholder="하고 싶은 말이 있으신가요?" onKeyDown={(e) => { if (e.keyCode === 13){if (e.shiftKey === true) { e.target.value += '\n'; } else sendMessage(e);} }} onChange={(e) => setContent(e.target.value)} />
             <input type="submit" className="button" value="보내기" />
           </form>
         </div>
       </div>
     );
   }
-
+  
   return (
-    <div className="App">
+    
+    <div className="App" >
       <header className="App-header">
         <div className="Chatroom-title">
           벤처 웹프로그래밍 공주님 왕자님들과 채팅하려면 방에 입장해 주세요.
