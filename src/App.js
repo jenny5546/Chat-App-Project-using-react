@@ -47,7 +47,7 @@ class ChatMessage {
 //   const pctScrolled = Math.floor(scrollTop/trackLength*100); // gets percentage scrolled (ie: 80 or NaN if tracklength == 0)
 //   console.log(pctScrolled + '% scrolled')
 //   return pctScrolled;
-// // }
+// }
 
 // window.addEventListener('scroll', () => {
 //   amountscrolled();
@@ -61,6 +61,7 @@ class ChatMessage {
 export default function App() {
   
   const [messageList, setMessageList] = useState([]);
+  // const [messageHistory, setHistory] = useState([]);
   const [name, setName] = useState(null);
   const [content, setContent] = useState(null);
   const [open, setOpen] = useState(false);
@@ -73,12 +74,17 @@ export default function App() {
     setOpen(false);
   };
 
-  
+  const handleDuplicates = (response) => {
+    if (!response.ok) {
+      return alert('중복된 닉네임입니다');
+    }
+    return response.json();
+  };
 
   const onLogin = (e) => {
     e.preventDefault();
     if (!name) {
-      return alert('input your name');
+      return alert('닉네임을 입력해주세요');
     }
     fetch(`${API_ENDPOINT}/login`, {
       method: 'POST',
@@ -88,7 +94,7 @@ export default function App() {
       },
       body: `name=${name}`,
     })
-      .then((response) => response.json())
+      .then(handleDuplicates)
       .then(({ key }) => {
         console.log(key);
         if (key) {
@@ -126,6 +132,7 @@ export default function App() {
 
         //console.log(messageList);
         document.querySelector('.input').value = '';
+        
       })
       .catch((err) => console.error(err));
   };
@@ -147,12 +154,49 @@ export default function App() {
           );
         });
     }, 3000);
-    
   }, []);
   
-  // if (amountscrolled()=== 0){
+
+  // const loadMore = (e) =>{
+  //   e.preventDefault();
+  //   if (messageHistory[messageHistory.length -1]){
+  //     fetch(`${API_ENDPOINT}/chats?createdAtFrom=${messageHistory[messageHistory.length -1].createdAt+1}`)
+  //     .then((res) => res.json())
+  //     .then((messages) => {
+  //         messages.map((message) => messageHistory.push(new ChatMessage(message.userName, message.message, message.createdAt)))
+  //     });
+  //   }
+    
+  // }
+
+//   setInterval(()=>{
+//     if (messageHistory[messageHistory.length -1] && messageHistory[messageHistory.length -1]!==messageList[messageList.length-1]){
+//           fetch(`${API_ENDPOINT}/chats?createdAtFrom=${messageHistory[messageHistory.length -1].createdAt+1}`)
+//           .then((res) => res.json())
+//           .then((messages) => {
+//               messages.map((message) => messageHistory.push(new ChatMessage(message.userName, message.message, message.createdAt)))
+//           });
+//         }
+//   }, 100);
+
+//  useEffect(() => {
+//   fetch(`${API_ENDPOINT}/chats`)
+//         .then((res) => res.json())
+//         .then((messages) => {
+//           setHistory(
+//             messages.map((message) => new ChatMessage(message.userName, message.message, message.createdAt)),
+//           );
+          
+          
+//         });
+// }, []);
+
+
+//console.log(messageHistory)
+
+  // if (amountscrolled()=== 100){
   //     if (messageList[0]) {
-  //       fetch(`${API_ENDPOINT}/chats?createdAtFrom=${messageList[0].createdAt}`)
+  //       fetch(`${API_ENDPOINT}/chats?createdAtTo=${messageList[0].createdAt}`)
   //         .then((res) => res.json())
   //         .then((messages) => {
   //           console.log(messages);
@@ -181,6 +225,7 @@ export default function App() {
         </header>
         <div className="logout">
           <input type="submit" onClick={logout} className="logout-button" value="로그아웃" />
+          {/* <input type="submit" onClick={loadMore} className="button" value="loadmore" /> */}
         </div>
         <div className="chatbox">
           <div className="chatList">
