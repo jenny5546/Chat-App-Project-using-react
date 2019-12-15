@@ -59,7 +59,6 @@ class ChatMessage {
 // };
 
 export default function App() {
-  
   const [messageList, setMessageList] = useState([]);
   // const [messageHistory, setHistory] = useState([]);
   const [name, setName] = useState(null);
@@ -102,12 +101,10 @@ export default function App() {
           localStorage.setItem('name', name);
           window.location.reload();
         }
-        
       })
       .catch((err) => console.error(err));
   };
-  
-  const sendMessage =(e) =>{
+  const sendMessage = (e) => {
     e.preventDefault();
     if (!localStorage.getItem('__key')) {
       return alert("로그인하고 이용해주세요")
@@ -130,21 +127,19 @@ export default function App() {
           newMessage,
         ]);
 
-        //console.log(messageList);
         document.querySelector('.input').value = '';
-        
       })
       .catch((err) => console.error(err));
   };
 
-  const logout =(e)=>{
+  const logout = (e) => {
     e.preventDefault();
     localStorage.removeItem('__key');
     localStorage.removeItem('name');
   };
 
   useEffect(() => {
-    setInterval(()=>{
+    setInterval(() => {
       fetch(`${API_ENDPOINT}/chats?order=desc`)
         .then((res) => res.json())
         .then((messages) => {
@@ -155,7 +150,15 @@ export default function App() {
         });
     }, 3000);
   }, []);
+
   
+  // fetch(`https://cors-anywhere.herokuapp.com/https://openapi.naver.com/v1/search/local.json?query=hi&start=1&sort=random`,{
+  //     headers:{
+  //       'X-Naver-Client-Id':'v2ovBB6VAQB_os_SAzYR',
+  //       'X-Naver-Client-Secret':'TrDGGlwyV7',
+  //     }
+  //   }).then((response)=>response.json())
+  //     .then((data)=>console.log(data));
 
   // const loadMore = (e) =>{
   //   e.preventDefault();
@@ -207,10 +210,8 @@ export default function App() {
   //           ]);
   //         });
   //     }
-  // //   
+  // //
   // }
-  
-
   if (localStorage.getItem('name')) { // 만약 로그인이 돼 있으면
     return (
       <div className="App">
@@ -249,17 +250,15 @@ export default function App() {
 
           <form className="chat_form" onSubmit={sendMessage}>
             <img className="icon" src={icon}/>
-            <textarea className="input" placeholder="하고 싶은 말이 있으신가요?" onKeyDown={(e) => { if (e.keyCode === 13){if (e.shiftKey === true) { e.target.value += '\n'; } else sendMessage(e);} }} onChange={(e) => setContent(e.target.value)} />
+            <textarea className="input" placeholder="하고 싶은 말이 있으신가요?" onKeyDown={(e) => { if (e.keyCode === 13) { if (e.shiftKey === true) { e.target.value += '\n'; } else sendMessage(e);} }} onChange={(e) => setContent(e.target.value)} />
             <input type="submit" className="button" value="보내기" />
           </form>
         </div>
       </div>
     );
   }
-  
   return (
-    
-    <div className="App" >
+    <div className="App">
       <header className="App-header">
         <div className="Chatroom-title">
           벤처 웹프로그래밍 공주님 왕자님들과 채팅하려면 방에 입장해 주세요.
@@ -270,7 +269,7 @@ export default function App() {
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">로그인</DialogTitle>
           <DialogContent>
-            <form className= "login_form" onSubmit={onLogin}>
+            <form className="login_form" onSubmit={onLogin}>
               <input type="text" className="login_input" placeholder="닉네임을 입력해주세요" onChange={(e) => setName(e.target.value)} />
               <input type="submit" className="button" value="방 입장" />
             </form>
@@ -285,17 +284,24 @@ export default function App() {
 
       <div className="chatbox">
         <div className="chatList">
-          {messageList.map(message => {
+          {messageList.map(message =>{
             return (
               <div className="chat-container">
-                <div className="username"> { message.userName } : </div> 
-                <div className="content"> { message.message } </div>
-                <div className="date">{ formatDate(message.createdAt) } </div>
+                <div className="username">
+                  {message.userName}
+                  :
+                </div>
+                <div className="content">
+                  { message.message }
+                </div>
+                <div className="date">
+                  { formatDate(message.createdAt) }
+                </div>
               </div>
-            ) })}
+            ); })}
         </div>
 
-        <form className= "chat_form" onSubmit={sendMessage}>
+        <form className="chat_form" onSubmit={sendMessage}>
           <img className="icon" src={icon}/>
           <input type="text" className="input" placeholder="하고 싶은 말이 있으신가요?" onChange={(e) => setContent(e.target.value)} />
           <input type="submit" className="button" value="보내기" />
